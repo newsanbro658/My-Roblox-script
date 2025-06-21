@@ -1,1 +1,1 @@
-https://github.com/newsanbro658/My-Roblox-script.git
+game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 100
