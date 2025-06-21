@@ -1,0 +1,20 @@
+-- Create GUI
+local ScreenGui = Instance.new("ScreenGui")
+local Button = Instance.new("TextButton")
+
+ScreenGui.Parent = game.CoreGui
+Button.Parent = ScreenGui
+
+-- Button style
+Button.Text = "Speed Hack"
+Button.Size = UDim2.new(0, 150, 0, 50)
+Button.Position = UDim2.new(0, 100, 0, 100)
+Button.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
+Button.TextColor3 = Color3.new(1, 1, 1)
+Button.Font = Enum.Font.SourceSansBold
+Button.TextSize = 20
+
+-- What happens when clicked
+Button.MouseButton1Click:Connect(function()
+    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 100
+end)
