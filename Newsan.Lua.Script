@@ -1,0 +1,238 @@
+-- NS OP GUI Full Compact Version
+-- Mobile-friendly, all toggles, compact gamepass
+
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local player = Players.LocalPlayer
+local PlayerGui = player:WaitForChild("PlayerGui")
+
+-- ======================
+-- ScreenGui
+-- ======================
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "NS_OP_GUI"
+screenGui.ResetOnSpawn = false
+screenGui.Parent = PlayerGui
+screenGui.DisplayOrder = 999
+
+-- ======================
+-- Main Frame
+-- ======================
+local mainFrame = Instance.new("Frame")
+mainFrame.Size = UDim2.new(0, 260, 0, 500)
+mainFrame.Position = UDim2.new(0.05, 0, 0.1, 0)
+mainFrame.BackgroundColor3 = Color3.fromRGB(30,30,30)
+mainFrame.BorderSizePixel = 0
+mainFrame.Active = true
+mainFrame.Draggable = true
+mainFrame.Parent = screenGui
+
+local uicorner = Instance.new("UICorner")
+uicorner.CornerRadius = UDim.new(0, 15)
+uicorner.Parent = mainFrame
+
+-- ======================
+-- Header
+-- ======================
+local header = Instance.new("Frame")
+header.Size = UDim2.new(1,0,0,50)
+header.Position = UDim2.new(0,0,0,0)
+header.BackgroundColor3 = Color3.fromRGB(50,50,50)
+header.Parent = mainFrame
+
+local headerLabel = Instance.new("TextLabel")
+headerLabel.Size = UDim2.new(1,-10,1,0)
+headerLabel.Position = UDim2.new(0,5,0,0)
+headerLabel.BackgroundTransparency = 1
+headerLabel.Text = "💎 NS OP"
+headerLabel.TextColor3 = Color3.fromRGB(255,255,255)
+headerLabel.Font = Enum.Font.GothamBold
+headerLabel.TextSize = 18
+headerLabel.TextXAlignment = Enum.TextXAlignment.Left
+headerLabel.Parent = header
+
+-- ======================
+-- Toggle Function
+-- ======================
+local function createToggle(yPos, text)
+	local btn = Instance.new("TextButton")
+	btn.Size = UDim2.new(0, 240, 0, 45)
+	btn.Position = UDim2.new(0,10,0,yPos)
+	btn.BackgroundColor3 = Color3.fromRGB(60,60,60)
+	btn.BorderSizePixel = 0
+	btn.Text = "[ OFF ] "..text
+	btn.TextColor3 = Color3.fromRGB(255,255,255)
+	btn.Font = Enum.Font.GothamBold
+	btn.TextSize = 14
+	btn.AutoButtonColor = true
+	btn.Parent = mainFrame
+
+	local uic = Instance.new("UICorner")
+	uic.CornerRadius = UDim.new(0,10)
+	uic.Parent = btn
+
+	local toggle = false
+	btn.MouseButton1Click:Connect(function()
+		toggle = not toggle
+		btn.Text = (toggle and "[ ON ] "..text) or "[ OFF ] "..text
+		btn.BackgroundColor3 = toggle and Color3.fromRGB(80,80,80) or Color3.fromRGB(60,60,60)
+	end)
+	return btn, function() return toggle end
+end
+
+-- ======================
+-- Toggles
+-- ======================
+local gearBtn, gearOn = createToggle(70, "Auto Gear")
+local frontmanBtn, frontmanOn = createToggle(130, "Frontman Events")
+local beatBtn, beatOn = createToggle(450, "Auto Beat Very Fast")
+
+-- ======================
+-- Money Input
+-- ======================
+local moneyBox = Instance.new("TextBox")
+moneyBox.Size = UDim2.new(0, 240, 0, 40)
+moneyBox.Position = UDim2.new(0,10,0,190)
+moneyBox.PlaceholderText = "Enter money (any number)"
+moneyBox.BackgroundColor3 = Color3.fromRGB(70,70,70)
+moneyBox.TextColor3 = Color3.fromRGB(255,255,255)
+moneyBox.BorderSizePixel = 0
+moneyBox.Font = Enum.Font.GothamBold
+moneyBox.TextSize = 14
+moneyBox.ClearTextOnFocus = false
+moneyBox.Text = ""
+moneyBox.Parent = mainFrame
+
+local uicMoney = Instance.new("UICorner")
+uicMoney.CornerRadius = UDim.new(0,10)
+uicMoney.Parent = moneyBox
+
+local giveBtn = Instance.new("TextButton")
+giveBtn.Size = UDim2.new(0,240,0,45)
+giveBtn.Position = UDim2.new(0,10,0,240)
+giveBtn.Text = "💰 Give Money"
+giveBtn.BackgroundColor3 = Color3.fromRGB(80,80,80)
+giveBtn.BorderSizePixel = 0
+giveBtn.TextColor3 = Color3.fromRGB(255,255,255)
+giveBtn.Font = Enum.Font.GothamBold
+giveBtn.TextSize = 14
+giveBtn.AutoButtonColor = true
+giveBtn.Parent = mainFrame
+
+local uicGive = Instance.new("UICorner")
+uicGive.CornerRadius = UDim.new(0,10)
+uicGive.Parent = giveBtn
+
+-- ======================
+-- Compact Paid Gamepass Button
+-- ======================
+local gamepassFrame = Instance.new("Frame")
+gamepassFrame.Size = UDim2.new(0, 240, 0, 40)
+gamepassFrame.Position = UDim2.new(0,10,0,300)
+gamepassFrame.BackgroundColor3 = Color3.fromRGB(50,50,50)
+gamepassFrame.BorderSizePixel = 0
+gamepassFrame.Parent = mainFrame
+
+local uicFrame = Instance.new("UICorner")
+uicFrame.CornerRadius = UDim.new(0,10)
+uicFrame.Parent = gamepassFrame
+
+local gamepassBtn = Instance.new("TextButton")
+gamepassBtn.Size = UDim2.new(1,0,1,0)
+gamepassBtn.Position = UDim2.new(0,0,0,0)
+gamepassBtn.BackgroundTransparency = 1
+gamepassBtn.Text = "🎟️ Buy All Gamepasses (Real Price)"
+gamepassBtn.TextColor3 = Color3.fromRGB(255,255,255)
+gamepassBtn.Font = Enum.Font.GothamBold
+gamepassBtn.TextSize = 14
+gamepassBtn.Parent = gamepassFrame
+
+local gamepasses = {
+	{price=25000, name="GoldCoil"},
+	{price=50000, name="VoidCoil"},
+	{price=100000, name="SuperCoil"},
+	{price=50000, name="GoldenCarpet"},
+	{price=100000, name="DiamondCarpet"},
+	{price=150000, name="DragonCarpet"},
+	{price=100000, name="RainbowGlove"},
+	{price=200000, name="Overkill"},
+	{price=500000, name="Frontman"}
+}
+
+gamepassBtn.MouseButton1Click:Connect(function()
+	for _, gp in ipairs(gamepasses) do
+		local args = {gp.price, gp.name}
+		local remote = ReplicatedStorage:WaitForChild("Gamepasses_Remotes"):WaitForChild("PurchaseShop")
+		pcall(function()
+			remote:FireServer(unpack(args))
+		end)
+	end
+end)
+
+-- ======================
+-- Functions
+-- ======================
+local function claimGear()
+	local folder = ReplicatedStorage:FindFirstChild("FreeGear_Remotes")
+	if folder then
+		for _, r in pairs(folder:GetChildren()) do
+			if r:IsA("RemoteEvent") then
+				pcall(function() r:FireServer() end)
+			end
+		end
+	end
+end
+
+local function triggerFrontman()
+	local folder = ReplicatedStorage:FindFirstChild("Frontman_Remotes")
+	if folder then
+		for _, r in pairs(folder:GetChildren()) do
+			if r:IsA("RemoteEvent") then
+				pcall(function() r:FireServer() end)
+			end
+		end
+	end
+end
+
+-- Money Giver
+giveBtn.MouseButton1Click:Connect(function()
+	local val = tonumber(moneyBox.Text)
+	if val and val > 0 then
+		local args = {val}
+		local remote = ReplicatedStorage:WaitForChild("CratesUtilities"):WaitForChild("Remotes"):WaitForChild("GiveReward")
+		pcall(function()
+			remote:FireServer(unpack(args))
+		end)
+	end
+end)
+
+-- Auto Beat Loop
+spawn(function()
+	while true do
+		wait(0.01)
+		if beatOn() then
+			local args = {
+				"slash",
+				Instance.new("Model", nil),
+				Vector3.new(0.40078204870224, -0.21622997522354126, -0.890291154384613)
+			}
+
+			local tool = Instance.new("Tool", nil)
+			local event = tool:FindFirstChild("Event")
+			if event and event:IsA("RemoteEvent") then
+				pcall(function()
+					event:FireServer(unpack(args))
+				end)
+			end
+		end
+	end
+end)
+
+-- Main Loop
+spawn(function()
+	while true do
+		wait(1)
+		if gearOn() then claimGear() end
+		if frontmanOn() then triggerFrontman() end
+	end
+end)
